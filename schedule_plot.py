@@ -4,30 +4,32 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def readData():
-    excel = pd.read_excel (r'COMP3217CW2Input.xlsx', sheet_name = 'User & Task ID')
-    name = excel['User & Task ID'].tolist()
-    readytime = excel['Ready Time'].tolist()
-    deadline = excel['Deadline'].tolist()
-    maxkwh = excel['Maximum scheduled energy per hour'].tolist()
-    demand = excel['Energy Demand'].tolist()
-    alltasks = []
-    task_names = []
-    for i in range (len(readytime)):
+    excelFile = pd.read_excel ('COMP3217CW2Input.xlsx', sheet_name = 'User & Task ID')
+    taskName = excelFile['User & Task ID'].tolist()
+    readyTime = excelFile['Ready Time'].tolist()
+    deadline = excelFile['Deadline'].tolist()
+    maxEnergyPerHour = excelFile['Maximum scheduled energy per hour'].tolist()
+    energyDemand = excelFile['Energy Demand'].tolist()
+    tasks = []
+    taskNames = []
+    
+    for k in range (len(readyTime)):
         task = []
-        task.append(readytime[i])
-        task.append(deadline[i])
-        task.append(maxkwh[i])
-        task.append(demand[i])
-        alltasks.append(task)
-        task_names.append(name[i])
+        task.append(readyTime[k])
+        task.append(deadline[k])
+        task.append(maxEnergyPerHour[k])
+        task.append(energyDemand[k])
+        taskNames.append(taskName[k])
         
+        tasks.append(task)
+              
     #Reading Testing Data Output
     testDF = pd.read_csv('TestingDataOutput.txt', header=None)
     y_labels = testDF[24].tolist()
     testDF = testDF.drop(24, axis=1)
     x_data = testDF.values.tolist()
     
-    return alltasks, task_names, x_data, y_labels
+    return tasks, taskNames, x_data, y_labels
 
 def createLPModel(tasks, task_names):
 
