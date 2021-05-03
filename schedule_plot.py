@@ -24,7 +24,7 @@ def readData():
         tasks.append(task)
               
     #Reading Testing Data Output
-    testDF = pd.read_csv('TestingDataOutput.txt', header=None)
+    testDF = pd.read_csv('TestingResults.txt', header=None)
     y_labels = testDF[24].tolist()
     testDF = testDF.drop(24, axis=1)
     x_data = testDF.values.tolist()

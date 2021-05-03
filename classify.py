@@ -37,5 +37,5 @@ print("Testing accuracy for 25% of training data:",log.score(x_test, y_test))
 #Printing results to output file
 predDF = pd.DataFrame({'Prediction': y_pred})
 testDF = testDF.join(predDF)
-testDF.to_csv("TestingDataOutput.txt", header=None, index=None)
+testDF.to_csv("TestingResults.txt", header=None, index=None)
 predDF.to_csv("PredictionsOnly.txt", header=None, index=None)
