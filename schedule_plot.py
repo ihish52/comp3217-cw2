@@ -32,48 +32,43 @@ def readData():
     return tasks, taskNames, x_data, y_labels
 
 def createLPModel(tasks, task_names):
+    '''Function to create an LP model for the scheduling problem'''
 
+    #Variables
     task_vars = []
-    n_list = []
     c = []
     eq = []
     
+    #create LP problem model for Minimization    
     model = LpProblem(name="scheduling-problem", sense=LpMinimize)
     
-
-    for task in tasks:
-        n_list.append(task[1] - task[0] + 1)
-
+    #Loop through list of tasks
     for ind, task in enumerate(tasks):
         n = task[1] - task[0] + 1
         temp_list = []
+        #Loop between ready_time and deadline for each task
+        #Creates LP variables with given constraints and unique names
         for i in range(task[0], task[1] + 1):
             x = LpVariable(name=task_names[ind]+'_'+str(i), lowBound=0, upBound=task[2])
             temp_list.append(x)
         task_vars.append(temp_list)
-        
-    #print (type(task_vars))
-        
+
+    #Create objective function for price (to minimize) and add to the model
     for ind, task in enumerate(tasks):
         for var in task_vars[ind]:
-            #print (int(var.name.split('_')[1]))
             price = price_list[int(var.name.split('_')[2])]
-            #print (c)
             c.append(price * var)
-
-    #print (c)
     model += lpSum(c)
             
+    #Add additional constraints to the model      
     for ind, task in enumerate(tasks):
         temp_list = []
         for var in task_vars[ind]:
             temp_list.append(var)
         eq.append(temp_list)
-        #temp_list.append(task[3])
-        
-        ##adding the constraints
         model += lpSum(temp_list) == task[3]
-        
+    
+    #Return model to be solved in main function
     return model
 
 def plot(model, count):
@@ -105,7 +100,7 @@ def plot(model, count):
     plt.xticks(pos, hours)
     plt.xlabel('Hour')
     plt.ylabel('Energy Usage (kW)')
-    plt.title('Energy Usage Per Hour For All Users')
+    plt.title('Energy Usage Per Hour For All Users\nDay %i'%count)
     plt.legend(users,loc=0)
     #plt.show()
     plt.savefig('plots\\'+str(count)+'.png')
@@ -115,8 +110,11 @@ def plot(model, count):
 
 tasks, task_names, x_data, y_labels = readData()
 
+
 for ind, price_list in enumerate(x_data):
+    #Schedule and plot abnormal guideline pricing curves
     if y_labels[ind] == 1:
+    #if y_labels[ind] == 1 or y_labels[ind]==0:
         model = createLPModel(tasks, task_names)
         answer = model.solve()
         print(answer)
