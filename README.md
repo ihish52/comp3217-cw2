@@ -21,6 +21,8 @@
 - Predict labels, solve LP problem and plot abnormal energy usage (uses same two commands as Windows, but in one bash script):
     - bash classify_schedule_plot.sh
 
+
+#
 ### Compare 7 different classification methods (duplicate Table 1 results):
 - python compare_classification_methods.py
 
