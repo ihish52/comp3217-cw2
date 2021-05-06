@@ -119,3 +119,5 @@ for ind, price_list in enumerate(x_data):
         answer = model.solve()
         print(answer)
         plot(model,ind+1)
+
+print("\n Abnormal plots can be found in the /plots folder")
