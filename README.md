@@ -5,11 +5,12 @@
 
 ### Requirements:
 - Python 3.6 or later
-- numpy
-- scikit-learn
-- pandas
-- matplotlib
-- PuLP
+- numpy - _pip install numpy_
+- scikit-learn - _pip install sklearn_
+- pandas - pip install pandas
+- matplotlib - pip install matplotlib
+- PuLP - pip install pulp
+- openpyxl for Excel support on Linux - pip install openpyxl
 
 # Running main code – detecting manipulated pricing, scheduling, and plotting:
 ### Windows

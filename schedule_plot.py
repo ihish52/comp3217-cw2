@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def readData():
+    #Read user task information from excel file
     excelFile = pd.read_excel ('COMP3217CW2Input.xlsx', sheet_name = 'User & Task ID')
     taskName = excelFile['User & Task ID'].tolist()
     readyTime = excelFile['Ready Time'].tolist()
@@ -71,6 +72,7 @@ def createLPModel(tasks, task_names):
     #Return model to be solved in main function
     return model
 
+#Plot hourly energy usage for community
 def plot(model, count):
     hours = [str(x) for x in range(0, 24)]
     pos = np.arange(len(hours))
@@ -78,6 +80,8 @@ def plot(model, count):
     color_list = ['midnightblue','mediumvioletred','mediumturquoise','gold','linen']
     plot_list = []
     to_plot = []
+    
+    #Create lists to plot usage
     for user in users:
         temp_list = []
         for hour in hours:
@@ -91,6 +95,7 @@ def plot(model, count):
             temp_list.append(sum(hour_list_temp))
         plot_list.append(temp_list)
 
+    #Show as a bar chart stacked by user
     plt.bar(pos,plot_list[0],color=color_list[0],edgecolor='black',bottom=0)
     plt.bar(pos,plot_list[1],color=color_list[1],edgecolor='black',bottom=np.array(plot_list[0]))
     plt.bar(pos,plot_list[2],color=color_list[2],edgecolor='black',bottom=np.array(plot_list[0])+np.array(plot_list[1]))
@@ -114,10 +119,12 @@ tasks, task_names, x_data, y_labels = readData()
 for ind, price_list in enumerate(x_data):
     #Schedule and plot abnormal guideline pricing curves
     if y_labels[ind] == 1:
-    #if y_labels[ind] == 1 or y_labels[ind]==0:
+        #Solve returned LP model fro scheduling solution
         model = createLPModel(tasks, task_names)
         answer = model.solve()
+        #Print LP model stats
         print(answer)
+        #Plot hourly usage for scheduling solution
         plot(model,ind+1)
 
 print("\n Abnormal plots can be found in the /plots folder")
