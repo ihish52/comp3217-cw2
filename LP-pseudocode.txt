@@ -1,8 +1,0 @@
-task_info = [[ready_time, deadline, max_energy_ph, energy_demand], [20, 23, 1, 1],
-			[., ., ., .], ...]
-task_names = [user1_task1, user2_task1, ...]
-
-model = create_LP_model()
-
-loop i in range [deadline to ready_time]:
-	x = new_LP_variable(name=task_names[i]_i)

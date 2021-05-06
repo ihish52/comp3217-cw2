@@ -47,5 +47,5 @@ print("\nAccuracy for LDA classifier on full Training Dataset:",lda.score(x_trai
 predDF = pd.DataFrame({'Prediction': y_pred})
 testDF = testDF.join(predDF)
 testDF.to_csv("TestingResults.txt", header=None, index=None)
-predDF.to_csv("PredictionsOnly.txt", header=None, index=None)
+#predDF.to_csv("PredictionsOnly.txt", header=None, index=None)
 print("\nPredictions in output file TestingResults.txt")
